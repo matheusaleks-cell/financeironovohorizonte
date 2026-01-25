@@ -1,0 +1,65 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  name      String
+  username  String   @unique
+  password  String
+  role      String   @default("USER")
+  createdAt DateTime @default(now())
+  transactions Transaction[]
+  logs      AuditLog[]
+}
+
+model Category {
+  id          Int           @id @default(autoincrement())
+  name        String
+  type        String        // INCOME, EXPENSE
+  transactions Transaction[]
+}
+
+model Transaction {
+  id            Int      @id @default(autoincrement())
+  type          String   // INCOME, EXPENSE
+  amount        Float
+  date          DateTime
+  description   String
+  paymentMethod String
+  proofUrl      String?
+  status        String   @default("COMPLETED") // PENDING, COMPLETED
+  userId        Int
+  categoryId    Int
+  user          User     @relation(fields: [userId], references: [id])
+  category      Category @relation(fields: [categoryId], references: [id])
+  createdAt     DateTime @default(now())
+}
+
+model AuditLog {
+  id        Int      @id @default(autoincrement())
+  action    String
+  entity    String
+  entityId  String
+  details   String
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id])
+  timestamp DateTime @default(now())
+}
+
+model MonthlyClosing {
+  id           Int      @id @default(autoincrement())
+  month        Int
+  year         Int
+  totalIncome  Float
+  totalExpense Float
+  netProfit    Float
+  distribution String   // JSON details
+  status       String   @default("CLOSED")
+  closedAt     DateTime @default(now())
+}

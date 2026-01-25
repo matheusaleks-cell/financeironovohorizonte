@@ -1,0 +1,124 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "name": "Daine",
+      "username": "daine",
+      "password": "123",
+      "role": "ADMIN"
+    },
+    {
+      "id": 2,
+      "name": "Fernando",
+      "username": "fernando",
+      "password": "123",
+      "role": "ADMIN"
+    },
+    {
+      "id": 3,
+      "name": "Michel",
+      "username": "michel",
+      "password": "123",
+      "role": "ADMIN"
+    },
+    {
+      "id": 4,
+      "name": "Mayara",
+      "username": "mayara",
+      "password": "123",
+      "role": "ADMIN"
+    },
+    {
+      "id": 99,
+      "name": "Suporte Técnico",
+      "username": "Suporte",
+      "password": "211198",
+      "role": "SUPER_ADMIN"
+    }
+  ],
+  "categories": [
+    {
+      "id": 1,
+      "name": "Hospedagem",
+      "type": "INCOME"
+    },
+    {
+      "id": 2,
+      "name": "Diária",
+      "type": "INCOME"
+    },
+    {
+      "id": 3,
+      "name": "Extra",
+      "type": "INCOME"
+    },
+    {
+      "id": 4,
+      "name": "Consumo",
+      "type": "INCOME"
+    },
+    {
+      "id": 5,
+      "name": "Outros",
+      "type": "INCOME"
+    },
+    {
+      "id": 6,
+      "name": "Funcionários",
+      "type": "EXPENSE"
+    },
+    {
+      "id": 7,
+      "name": "Manutenção",
+      "type": "EXPENSE"
+    },
+    {
+      "id": 8,
+      "name": "Café da manhã",
+      "type": "EXPENSE"
+    },
+    {
+      "id": 9,
+      "name": "Limpeza",
+      "type": "EXPENSE"
+    },
+    {
+      "id": 10,
+      "name": "Lavanderia",
+      "type": "EXPENSE"
+    },
+    {
+      "id": 11,
+      "name": "Energia elétrica",
+      "type": "EXPENSE"
+    },
+    {
+      "id": 12,
+      "name": "Água",
+      "type": "EXPENSE"
+    },
+    {
+      "id": 13,
+      "name": "Internet",
+      "type": "EXPENSE"
+    },
+    {
+      "id": 14,
+      "name": "Compras gerais",
+      "type": "EXPENSE"
+    },
+    {
+      "id": 15,
+      "name": "Impostos",
+      "type": "EXPENSE"
+    },
+    {
+      "id": 16,
+      "name": "Outros",
+      "type": "EXPENSE"
+    }
+  ],
+  "transactions": [],
+  "logs": [],
+  "closings": []
+}
