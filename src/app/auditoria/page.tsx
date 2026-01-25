@@ -22,7 +22,7 @@ export default async function AuditoriaPage() {
                         </tr>
                     </thead>
                     <tbody>
-                        {logs.map(log => (
+                        {logs.map((log: any) => (
                             <tr key={log.id} style={{ borderBottom: '1px solid var(--border)' }}>
                                 <td style={{ padding: '0.75rem 0.5rem', color: 'var(--text-muted)' }}>
                                     {new Date(log.timestamp).toLocaleString('pt-BR')}
