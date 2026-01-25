@@ -38,6 +38,10 @@ export async function POST(request: Request) {
             status: body.status || 'COMPLETED' // Default to COMPLETED if not sent
         });
 
+        import { sendPushNotification } from '@/lib/push';
+
+        // ... (inside POST)
+
         await db.logAction({
             action: 'CREATE',
             entity: 'Transaction',
@@ -45,6 +49,17 @@ export async function POST(request: Request) {
             details: `Created ${newTx.type} (Status: ${newTx.status}) - R$ ${newTx.amount}`,
             userId: body.userId
         });
+
+        // Fire and forget push
+        try {
+            const title = newTx.type === 'INCOME' ? '💰 Nova Receita' : '💸 Nova Despesa';
+            const msg = `${newTx.description} - R$ ${newTx.amount.toFixed(2)}`;
+            await sendPushNotification(title, msg, '/');
+        } catch (e) {
+            console.error('Push failed', e);
+        }
+
+        return NextResponse.json(newTx);
 
         return NextResponse.json(newTx);
     } catch (err: any) {

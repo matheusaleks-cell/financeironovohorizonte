@@ -4,8 +4,8 @@ import TransactionForm from '@/components/TransactionForm';
 export const dynamic = 'force-dynamic';
 
 export default async function ReceitasPage() {
-    const categories = (await db.getCategories()).filter(c => c.type === 'INCOME');
-    const transactions = (await db.getTransactions()).filter(t => t.type === 'INCOME').slice(0, 50);
+    const categories = (await db.getCategories()).filter((c: any) => c.type === 'INCOME');
+    const transactions = (await db.getTransactions()).filter((t: any) => t.type === 'INCOME').slice(0, 50);
 
     return (
         <div>
@@ -33,7 +33,7 @@ export default async function ReceitasPage() {
                                 </tr>
                             </thead>
                             <tbody>
-                                {transactions.map(t => (
+                                {transactions.map((t: any) => (
                                     <tr key={t.id} style={{ borderBottom: '1px solid var(--border)' }}>
                                         <td style={{ padding: '0.75rem 0.5rem' }}>{new Date(t.date).toLocaleDateString('pt-BR')}</td>
                                         <td style={{ padding: '0.75rem 0.5rem' }}>{t.description}</td>

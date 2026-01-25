@@ -140,5 +140,19 @@ export const db = {
         } else {
             return await prisma.monthlyClosing.create({ data });
         }
+    },
+
+    // Push Notifications
+    saveSubscription: async (sub: any) => {
+        return await prisma.pushSubscription.create({
+            data: {
+                endpoint: sub.endpoint,
+                keys: JSON.stringify(sub.keys)
+            }
+        });
+    },
+
+    getPushSubscriptions: async () => {
+        return await prisma.pushSubscription.findMany();
     }
 };

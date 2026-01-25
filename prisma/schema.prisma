@@ -63,3 +63,11 @@ model MonthlyClosing {
   status       String   @default("CLOSED")
   closedAt     DateTime @default(now())
 }
+
+model PushSubscription {
+  id        Int      @id @default(autoincrement())
+  endpoint  String   @unique
+  keys      String   // JSON string of { p256dh, auth }
+  userId    Int?     // Optional: link to user if logged in
+  createdAt DateTime @default(now())
+}
