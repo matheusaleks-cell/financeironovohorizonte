@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { db } from '@/lib/db';
+import { sendPushNotification } from '@/lib/push';
 
 export async function GET(request: Request) {
     const { searchParams } = new URL(request.url);
@@ -38,10 +39,6 @@ export async function POST(request: Request) {
             status: body.status || 'COMPLETED' // Default to COMPLETED if not sent
         });
 
-        import { sendPushNotification } from '@/lib/push';
-
-        // ... (inside POST)
-
         await db.logAction({
             action: 'CREATE',
             entity: 'Transaction',
@@ -61,7 +58,6 @@ export async function POST(request: Request) {
 
         return NextResponse.json(newTx);
 
-        return NextResponse.json(newTx);
     } catch (err: any) {
         return NextResponse.json({ error: err.message }, { status: 400 });
     }
