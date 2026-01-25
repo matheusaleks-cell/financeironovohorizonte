@@ -21,7 +21,8 @@ export default function LoginPage() {
         if (res.ok) {
             window.location.href = '/';
         } else {
-            alert('Credenciais inválidas');
+            const data = await res.json();
+            alert(data.error || 'Erro ao entrar');
         }
     };
 
