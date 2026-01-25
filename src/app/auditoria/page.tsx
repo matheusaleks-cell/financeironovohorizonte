@@ -1,7 +1,8 @@
 import { db } from '@/lib/db';
 
-export default function AuditoriaPage() {
-    const logs = db.getLogs().reverse().slice(0, 100);
+export default async function AuditoriaPage() {
+    const allLogs = await db.getLogs();
+    const logs = allLogs.reverse().slice(0, 100);
 
     return (
         <div>
