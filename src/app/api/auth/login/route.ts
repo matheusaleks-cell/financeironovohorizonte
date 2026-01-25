@@ -38,6 +38,7 @@ export async function POST(request: Request) {
         return response;
     } catch (e: any) {
         console.error(`[AUTH] Error: ${e.message}`);
-        return NextResponse.json({ error: 'Erro interno no login' }, { status: 500 });
+        // EXPOSING ERROR FOR DEBUGGING
+        return NextResponse.json({ error: `Erro técnico: ${e.message}` }, { status: 500 });
     }
 }
