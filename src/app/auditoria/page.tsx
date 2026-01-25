@@ -1,5 +1,7 @@
 import { db } from '@/lib/db';
 
+export const dynamic = 'force-dynamic';
+
 export default async function AuditoriaPage() {
     const allLogs = await db.getLogs();
     const logs = allLogs.reverse().slice(0, 100);

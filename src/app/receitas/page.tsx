@@ -1,6 +1,8 @@
 import { db } from '@/lib/db';
 import TransactionForm from '@/components/TransactionForm';
 
+export const dynamic = 'force-dynamic';
+
 export default async function ReceitasPage() {
     const categories = (await db.getCategories()).filter(c => c.type === 'INCOME');
     const transactions = (await db.getTransactions()).filter(t => t.type === 'INCOME').slice(0, 50);
