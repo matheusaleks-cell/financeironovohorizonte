@@ -3,11 +3,16 @@ import { useEffect, useState } from 'react';
 
 export default function Dashboard() {
   const [stats, setStats] = useState({ income: 0, expense: 0, balance: 0, count: 0 });
+  const [activities, setActivities] = useState<any[]>([]);
 
   useEffect(() => {
     fetch('/api/summary')
       .then(res => res.json())
       .then(data => setStats(data));
+
+    fetch('/api/activities')
+      .then(res => res.json())
+      .then(data => setActivities(data));
   }, []);
 
   const formatCurrency = (val: number) => {
@@ -63,15 +68,40 @@ export default function Dashboard() {
       </div>
 
       <div className="card">
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <h3>Atividades Recentes</h3>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
+          <h3 style={{ fontSize: '1rem', fontWeight: 600 }}>Atividades Recentes</h3>
           <a href="/api/export" className="btn" style={{ background: 'var(--text-main)', color: 'white', fontSize: '0.8rem' }}>
             📥 Baixar Relatório Completo (CSV)
           </a>
         </div>
-        <p style={{ color: 'var(--text-muted)', marginTop: '1rem' }}>
-          Nenhuma atividade registrada hoje. (Carregamento de lista pendente)
-        </p>
+
+        {activities.length === 0 ? (
+          <p style={{ color: 'var(--text-muted)' }}>Nenhuma atividade recente.</p>
+        ) : (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+            {activities.map((log: any) => (
+              <div key={log.id} style={{
+                padding: '0.75rem',
+                background: '#f8fafc',
+                borderRadius: '6px',
+                borderLeft: log.action === 'DELETE' ? '3px solid var(--danger)' : '3px solid var(--primary)',
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center'
+              }}>
+                <div>
+                  <p style={{ fontSize: '0.85rem', fontWeight: 500 }}>{log.details}</p>
+                  <p style={{ fontSize: '0.75rem', color: 'var(--text-secondary)' }}>
+                    {log.action} • {new Date(log.timestamp).toLocaleString('pt-BR')}
+                  </p>
+                </div>
+                <div style={{ fontSize: '0.75rem', fontWeight: 600, color: 'var(--text-secondary)' }}>
+                  Daine
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );
