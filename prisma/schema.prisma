@@ -18,6 +18,7 @@ model User {
   updatedAt DateTime @updatedAt @default(now())
   transactions Transaction[]
   logs      AuditLog[]
+  deletedAt DateTime? // Soft Delete
 }
 
 model Category {
@@ -25,6 +26,7 @@ model Category {
   name        String
   type        String        // INCOME, EXPENSE
   transactions Transaction[]
+  deletedAt   DateTime? // Soft Delete
 }
 
 model Transaction {
@@ -41,6 +43,7 @@ model Transaction {
   user          User     @relation(fields: [userId], references: [id])
   category      Category @relation(fields: [categoryId], references: [id])
   createdAt     DateTime @default(now())
+  deletedAt     DateTime? // Soft Delete
 }
 
 model AuditLog {

@@ -10,15 +10,16 @@ if (process.env.NODE_ENV !== 'production') globalForPrisma.prisma = prisma;
 export const db = {
     // READ Methods
     getUsers: async () => {
-        return await prisma.user.findMany();
+        return await prisma.user.findMany({ where: { deletedAt: null } });
     },
 
     getCategories: async () => {
-        return await prisma.category.findMany();
+        return await prisma.category.findMany({ where: { deletedAt: null } });
     },
 
     getTransactions: async () => {
         return await prisma.transaction.findMany({
+            where: { deletedAt: null },
             include: { category: true, user: true },
             orderBy: { date: 'desc' }
         });
@@ -106,8 +107,19 @@ export const db = {
     },
 
     deleteTransaction: async (id: number) => {
-        // TODO: ideally check lock before delete too, assuming UI handles it or admin override
-        return await prisma.transaction.delete({ where: { id } });
+        // Soft Delete
+        const original = await prisma.transaction.findUnique({ where: { id } });
+        if (!original) throw new Error("Transação não encontrada");
+
+        // Check lock (prevent deleting past records if month is locked)
+        if (await db.isMonthLocked(original.date.toISOString())) {
+            throw new Error("Mês fechado (Data Original).");
+        }
+
+        return await prisma.transaction.update({
+            where: { id },
+            data: { deletedAt: new Date() }
+        });
     },
 
     logAction: async (log: { action: string; entity: string; entityId: string; details: string; userId: number }) => {

@@ -17,15 +17,9 @@ export default function RootLayout({
   return (
     <html lang="pt-BR" suppressHydrationWarning>
       <body className={inter.className}>
-        <div style={{ display: 'flex' }}>
+        <div className="layout-wrapper">
           <Sidebar />
-          <main style={{
-            flex: 1,
-            marginLeft: '260px',
-            padding: '2rem',
-            maxWidth: '1200px',
-            marginRight: 'auto'
-          }}>
+          <main className="main-content">
             {children}
           </main>
         </div>

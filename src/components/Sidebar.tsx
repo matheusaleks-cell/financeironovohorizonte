@@ -60,113 +60,137 @@ export default function Sidebar() {
         ...(isAdmin ? [{ href: '/admin/users', label: 'Gestão Usuários', icon: <Icons.Admin /> }] : [])
     ];
 
+    const [isOpen, setIsOpen] = useState(false);
+
     return (
-        <aside style={{
-            width: '260px',
-            background: 'var(--bg-sidebar)', /* Dark Slate */
-            borderRight: '1px solid #1e293b',
-            height: '100vh',
-            position: 'fixed',
-            left: 0,
-            top: 0,
-            display: 'flex',
-            flexDirection: 'column',
-            zIndex: 50,
-            color: '#e2e8f0'
-        }}>
-            <div style={{ padding: '2rem 1.5rem', borderBottom: '1px solid #1e293b' }}>
+        <>
+            {/* Mobile Header */}
+            <div className="mobile-header">
                 <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-                    <div style={{
-                        width: '32px',
-                        height: '32px',
-                        background: '#3b82f6', /* Corporate Blue */
-                        borderRadius: '6px',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        color: 'white',
-                    }}>
-                        <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+                    <div style={{ width: '28px', height: '28px', background: '#3b82f6', borderRadius: '4px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white' }}>
+                        <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
                     </div>
-                    <div>
-                        <h1 style={{ fontSize: '0.95rem', fontWeight: 'bold', color: 'white', lineHeight: '1.2', letterSpacing: '-0.02em' }}>POUSADA<br /><span style={{ color: '#94a3b8', fontWeight: '400' }}>FINANCE PRO</span></h1>
-                    </div>
+                    <span style={{ fontWeight: 600 }}>Pousada Finance</span>
                 </div>
+                <button onClick={() => setIsOpen(!isOpen)} style={{ background: 'none', border: 'none', color: 'white' }}>
+                    {isOpen ? (
+                        <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
+                    ) : (
+                        <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" /></svg>
+                    )}
+                </button>
             </div>
 
-            <nav style={{ flex: 1, padding: '1.5rem 1rem', display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                {links.map(link => {
-                    const isActive = pathname === link.href;
-                    return (
-                        <Link key={link.href} href={link.href} style={{
+            {/* Overlay */}
+            {isOpen && <div className="sidebar-overlay" onClick={() => setIsOpen(false)} />}
+
+            <aside className={`sidebar-desktop ${isOpen ? 'open' : ''}`} style={{
+                width: '260px',
+                background: 'var(--bg-sidebar)',
+                borderRight: '1px solid #1e293b',
+                height: '100vh',
+                position: 'fixed',
+                left: 0,
+                top: 0,
+                display: 'flex',
+                flexDirection: 'column',
+                zIndex: 50,
+                color: '#e2e8f0'
+            }}>
+                <div style={{ padding: '2rem 1.5rem', borderBottom: '1px solid #1e293b' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                        <div style={{
+                            width: '32px',
+                            height: '32px',
+                            background: '#3b82f6',
+                            borderRadius: '6px',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            color: 'white',
+                        }}>
+                            <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+                        </div>
+                        <div>
+                            <h1 style={{ fontSize: '0.95rem', fontWeight: 'bold', color: 'white', lineHeight: '1.2', letterSpacing: '-0.02em' }}>POUSADA<br /><span style={{ color: '#94a3b8', fontWeight: '400' }}>FINANCE PRO</span></h1>
+                        </div>
+                    </div>
+                </div>
+
+                <nav style={{ flex: 1, padding: '1.5rem 1rem', display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                    {links.map(link => {
+                        const isActive = pathname === link.href;
+                        return (
+                            <Link key={link.href} href={link.href} onClick={() => setIsOpen(false)} style={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: '0.75rem',
+                                padding: '0.6rem 0.75rem',
+                                borderRadius: '6px',
+                                background: isActive ? '#1e293b' : 'transparent',
+                                border: isActive ? '1px solid #334155' : '1px solid transparent',
+                                color: isActive ? 'white' : '#94a3b8',
+                                fontWeight: isActive ? '500' : '400',
+                                transition: 'all 0.2s',
+                                fontSize: '0.875rem'
+                            }}>
+                                <span style={{
+                                    color: isActive ? '#60a5fa' : 'currentColor',
+                                    display: 'flex',
+                                    alignItems: 'center'
+                                }}>
+                                    {link.icon}
+                                </span>
+                                {link.label}
+                            </Link>
+                        );
+                    })}
+
+                    <button
+                        onClick={subscribeToPush}
+                        style={{
+                            marginTop: 'auto',
                             display: 'flex',
                             alignItems: 'center',
                             gap: '0.75rem',
-                            padding: '0.6rem 0.75rem', /* Sutilmente menor */
-                            borderRadius: '6px',
-                            background: isActive ? '#1e293b' : 'transparent',
-                            border: isActive ? '1px solid #334155' : '1px solid transparent',
-                            color: isActive ? 'white' : '#94a3b8',
-                            fontWeight: isActive ? '500' : '400',
-                            transition: 'all 0.2s',
-                            fontSize: '0.875rem'
-                        }}>
-                            <span style={{
-                                color: isActive ? '#60a5fa' : 'currentColor',
-                                display: 'flex',
-                                alignItems: 'center'
-                            }}>
-                                {link.icon}
-                            </span>
-                            {link.label}
-                        </Link>
-                    );
-                })}
+                            padding: '0.75rem 1rem',
+                            background: 'rgba(255,255,255,0.05)',
+                            border: '1px solid rgba(255,255,255,0.1)',
+                            borderRadius: '4px',
+                            color: '#fbbf24',
+                            cursor: 'pointer',
+                            fontSize: '0.8rem',
+                            fontWeight: '500',
+                            textAlign: 'left'
+                        }}
+                    >
+                        🔔 Ativar Notificações
+                    </button>
+                </nav>
 
-                <button
-                    onClick={subscribeToPush}
-                    style={{
-                        marginTop: 'auto',
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '0.75rem',
-                        padding: '0.75rem 1rem',
-                        background: 'rgba(255,255,255,0.05)',
-                        border: '1px solid rgba(255,255,255,0.1)',
-                        borderRadius: '4px',
-                        color: '#fbbf24',
-                        cursor: 'pointer',
-                        fontSize: '0.8rem',
-                        fontWeight: '500',
-                        textAlign: 'left'
-                    }}
-                >
-                    🔔 Ativar Notificações
-                </button>
-            </nav>
-
-            <div style={{ padding: '1.5rem', borderTop: '1px solid #1e293b' }}>
-                <div style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '0.75rem'
-                }}>
+                <div style={{ padding: '1.5rem', borderTop: '1px solid #1e293b' }}>
                     <div style={{
-                        width: '32px',
-                        height: '32px',
-                        background: '#334155',
-                        borderRadius: '50%',
                         display: 'flex',
                         alignItems: 'center',
-                        justifyContent: 'center',
-                        fontSize: '0.8rem'
-                    }}>👤</div>
-                    <div>
-                        <p style={{ fontSize: '0.85rem', fontWeight: '500', color: 'white' }}>Daine</p>
-                        <p style={{ fontSize: '0.7rem', color: '#94a3b8' }}>Administrador</p>
+                        gap: '0.75rem'
+                    }}>
+                        <div style={{
+                            width: '32px',
+                            height: '32px',
+                            background: '#334155',
+                            borderRadius: '50%',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            fontSize: '0.8rem'
+                        }}>👤</div>
+                        <div>
+                            <p style={{ fontSize: '0.85rem', fontWeight: '500', color: 'white' }}>Daine</p>
+                            <p style={{ fontSize: '0.7rem', color: '#94a3b8' }}>Administrador</p>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </aside>
+            </aside>
+        </>
     );
 }
