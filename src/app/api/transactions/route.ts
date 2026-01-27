@@ -43,7 +43,7 @@ export async function POST(request: Request) {
             return NextResponse.json({ error: 'Mês fechado. Não é possível adicionar lançamentos.' }, { status: 400 });
         }
 
-        const transaction = await db.createTransaction({
+        const transaction = await db.addTransaction({
             type: body.type,
             amount: body.amount,
             categoryId: body.categoryId,
