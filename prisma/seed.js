@@ -24,7 +24,7 @@ async function main() {
     }
 
     const incomeCategories = [
-        'Hospedagem', 'Diária', 'Extra', 'Consumo', 'Outros'
+        'Hospedagem', 'Extra', 'Consumo', 'Outros'
     ]
 
     const expenseCategories = [

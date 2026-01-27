@@ -29,7 +29,7 @@ export default function Dashboard() {
         <div style={{
           padding: '0.5rem 1rem', background: 'white', borderRadius: '12px', border: '1px solid var(--border)', fontSize: '0.9rem', color: 'var(--text-secondary)'
         }}>
-          📅 {new Date().toLocaleDateString('pt-BR', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
+          📅 {new Date().toLocaleDateString('pt-BR', { timeZone: 'America/Sao_Paulo', weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
         </div>
       </header>
 
@@ -92,7 +92,7 @@ export default function Dashboard() {
                 <div>
                   <p style={{ fontSize: '0.85rem', fontWeight: 500 }}>{log.details.replace('Created', 'Criado').replace('Status', 'Situação').replace('INCOME', 'Receita').replace('EXPENSE', 'Despesa')}</p>
                   <p style={{ fontSize: '0.75rem', color: 'var(--text-secondary)' }}>
-                    {log.action === 'DELETE' ? 'Exclusão' : log.action === 'CREATE' ? 'Criação' : log.action === 'UPDATE_PASSWORD' ? 'Senha Alterada' : log.action} • {new Date(log.timestamp).toLocaleString('pt-BR')}
+                    {log.action === 'DELETE' ? 'Exclusão' : log.action === 'CREATE' ? 'Criação' : log.action === 'UPDATE_PASSWORD' ? 'Senha Alterada' : log.action} • {new Date(log.timestamp).toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo' })}
                   </p>
                 </div>
                 <div style={{ fontSize: '0.75rem', fontWeight: 600, color: 'var(--text-secondary)' }}>
