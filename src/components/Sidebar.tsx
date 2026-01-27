@@ -10,7 +10,7 @@ export default function Sidebar() {
     const [isAdmin, setIsAdmin] = useState(false);
 
     useEffect(() => {
-        // Simple client-side check for UI. Real security is on the page/API.
+        // Simple client-side check for UI.
         const cookie = document.cookie.split('; ').find(row => row.startsWith('session_user='));
         if (cookie) {
             try {
@@ -19,7 +19,6 @@ export default function Sidebar() {
             } catch (e) { }
         }
 
-        // Service Worker Reg
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.register('/sw.js').catch(console.error);
         }
@@ -46,16 +45,16 @@ export default function Sidebar() {
         { href: '/', label: 'Visão Geral', icon: '📊' },
         { href: '/receitas', label: 'Receitas', icon: '💰' },
         { href: '/despesas', label: 'Despesas', icon: '💸' },
-        { href: '/fechamento', label: 'Fechamento', icon: '🤝' },
+        { href: '/fechamento', label: 'Fechamento', icon: '📋' },
         { href: '/auditoria', label: 'Segurança', icon: '🛡️' },
         ...(isAdmin ? [{ href: '/admin/users', label: 'Gestão Usuários', icon: '⚙️' }] : [])
     ];
 
     return (
         <aside style={{
-            width: '280px',
-            background: 'var(--bg-sidebar)',
-            borderRight: '1px solid var(--border)',
+            width: '260px', /* Slightly narrower */
+            background: 'var(--bg-sidebar)', /* Dark Slate */
+            borderRight: '1px solid #1e293b',
             height: '100vh',
             position: 'fixed',
             left: 0,
@@ -63,43 +62,46 @@ export default function Sidebar() {
             display: 'flex',
             flexDirection: 'column',
             zIndex: 50,
-            boxShadow: 'var(--shadow-md)'
+            color: 'white'
         }}>
-            <div style={{ padding: '2.5rem 2rem', borderBottom: '1px solid var(--border)' }}>
-                <div style={{
-                    width: '40px',
-                    height: '40px',
-                    background: 'var(--primary)',
-                    borderRadius: '12px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    marginBottom: '1rem',
-                    boxShadow: '0 4px 12px rgba(15, 118, 110, 0.3)'
-                }}>
-                    <span style={{ fontSize: '1.5rem' }}>🏨</span>
+            <div style={{ padding: '2rem 1.5rem', borderBottom: '1px solid #1e293b' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                    <div style={{
+                        width: '36px',
+                        height: '36px',
+                        background: '#3b82f6', /* Corporate Blue */
+                        borderRadius: '6px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        color: 'white',
+                        fontWeight: 'bold'
+                    }}>
+                        PF
+                    </div>
+                    <div>
+                        <h1 style={{ fontSize: '1rem', fontWeight: '600', color: 'white', lineHeight: '1.2' }}>POUSADA<br /><span style={{ color: '#94a3b8' }}>FINANCE PRO</span></h1>
+                    </div>
                 </div>
-                <h1 style={{ fontSize: '1.25rem', fontWeight: '800', color: 'var(--text-main)' }}>POUSADA<br /><span style={{ color: 'var(--primary)' }}>FINANCE PRO</span></h1>
             </div>
 
-            <nav style={{ flex: 1, padding: '2rem 1.5rem', display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+            <nav style={{ flex: 1, padding: '1.5rem 1rem', display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
                 {links.map(link => {
                     const isActive = pathname === link.href;
                     return (
                         <Link key={link.href} href={link.href} style={{
                             display: 'flex',
                             alignItems: 'center',
-                            gap: '1rem',
-                            padding: '1rem 1.25rem',
-                            borderRadius: '16px',
-                            background: isActive ? 'linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%)' : 'transparent',
-                            color: isActive ? 'white' : 'var(--text-secondary)',
-                            fontWeight: isActive ? '600' : '500',
-                            transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-                            boxShadow: isActive ? '0 8px 16px -4px rgba(13, 148, 136, 0.3)' : 'none',
-                            transform: isActive ? 'scale(1.02)' : 'none'
+                            gap: '0.75rem',
+                            padding: '0.75rem 1rem',
+                            borderRadius: '4px',
+                            background: isActive ? '#1e293b' : 'transparent',
+                            color: isActive ? 'white' : '#94a3b8',
+                            fontWeight: isActive ? '500' : '400',
+                            transition: 'all 0.2s',
+                            fontSize: '0.9rem'
                         }}>
-                            <span style={{ fontSize: '1.25rem' }}>{link.icon}</span>
+                            <span style={{ fontSize: '1.1rem', opacity: isActive ? 1 : 0.7 }}>{link.icon}</span>
                             {link.label}
                         </Link>
                     );
@@ -108,18 +110,18 @@ export default function Sidebar() {
                 <button
                     onClick={subscribeToPush}
                     style={{
-                        marginTop: 'auto', // Pushes to bottom
+                        marginTop: 'auto',
                         display: 'flex',
                         alignItems: 'center',
                         gap: '0.75rem',
                         padding: '0.75rem 1rem',
-                        background: 'rgba(255,166,0,0.1)',
-                        border: '1px solid rgba(255,166,0,0.3)',
-                        borderRadius: '8px',
+                        background: 'rgba(255,255,255,0.05)',
+                        border: '1px solid rgba(255,255,255,0.1)',
+                        borderRadius: '4px',
                         color: '#fbbf24',
                         cursor: 'pointer',
                         fontSize: '0.8rem',
-                        fontWeight: 'bold',
+                        fontWeight: '500',
                         textAlign: 'left'
                     }}
                 >
@@ -127,27 +129,25 @@ export default function Sidebar() {
                 </button>
             </nav>
 
-            <div style={{ padding: '2rem', borderTop: '1px solid var(--border)' }}>
+            <div style={{ padding: '1.5rem', borderTop: '1px solid #1e293b' }}>
                 <div style={{
-                    padding: '1rem',
-                    background: 'var(--bg-app)',
-                    borderRadius: '16px',
                     display: 'flex',
                     alignItems: 'center',
-                    gap: '1rem'
+                    gap: '0.75rem'
                 }}>
                     <div style={{
                         width: '32px',
                         height: '32px',
-                        background: '#cbd5e1',
+                        background: '#334155',
                         borderRadius: '50%',
                         display: 'flex',
                         alignItems: 'center',
-                        justifyContent: 'center'
+                        justifyContent: 'center',
+                        fontSize: '0.8rem'
                     }}>👤</div>
                     <div>
-                        <p style={{ fontSize: '0.85rem', fontWeight: '700' }}>Daine</p>
-                        <p style={{ fontSize: '0.75rem', color: 'var(--text-secondary)' }}>Administrador</p>
+                        <p style={{ fontSize: '0.85rem', fontWeight: '500', color: 'white' }}>Daine</p>
+                        <p style={{ fontSize: '0.7rem', color: '#94a3b8' }}>Administrador</p>
                     </div>
                 </div>
             </div>
