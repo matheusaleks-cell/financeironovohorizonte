@@ -67,10 +67,18 @@ export async function DELETE(request: Request) {
     try {
         const { searchParams } = new URL(request.url);
         const id = searchParams.get('id');
+        const reason = searchParams.get('reason');
+        // Ideally we get userId from session, but for now we'll accept it from params or cookie wrapper
+        // Use a header or param for userId if not using server auth session
+        const userId = searchParams.get('userId');
 
-        if (!id) return NextResponse.json({ error: 'ID required' }, { status: 400 });
+        if (!id || !reason) return NextResponse.json({ error: 'ID e Justificativa são obrigatórios' }, { status: 400 });
 
-        await db.deleteTransaction(parseInt(id));
+        // Fallback: try to extract userId from headers/cookie if not in params (simple check)
+        // For this architecture, let's assume client sends it explicitly for now or default to 1 (admin) if missing to avoid breaking
+        const uid = userId ? parseInt(userId) : 1;
+
+        await db.deleteTransaction(parseInt(id), uid, reason);
 
         return NextResponse.json({ success: true });
     } catch (err: any) {

@@ -106,7 +106,7 @@ export const db = {
         });
     },
 
-    deleteTransaction: async (id: number) => {
+    deleteTransaction: async (id: number, userId: number, reason: string) => {
         // Soft Delete
         const original = await prisma.transaction.findUnique({ where: { id } });
         if (!original) throw new Error("Transação não encontrada");
@@ -116,10 +116,21 @@ export const db = {
             throw new Error("Mês fechado (Data Original).");
         }
 
-        return await prisma.transaction.update({
+        const result = await prisma.transaction.update({
             where: { id },
             data: { deletedAt: new Date() }
         });
+
+        // Audit Log
+        await db.logAction({
+            action: 'DELETE',
+            entity: 'Transaction',
+            entityId: String(id),
+            details: `Excluído. Motivo: ${reason}. Valor: R$${original.amount}`,
+            userId: userId
+        });
+
+        return result;
     },
 
     logAction: async (log: { action: string; entity: string; entityId: string; details: string; userId: number }) => {

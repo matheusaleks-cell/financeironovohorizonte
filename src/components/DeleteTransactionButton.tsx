@@ -8,11 +8,25 @@ export default function DeleteTransactionButton({ id }: { id: number }) {
     const [loading, setLoading] = useState(false);
 
     const handleDelete = async () => {
-        if (!confirm('Tem certeza que deseja excluir este lançamento?')) return;
+        const reason = prompt('Motivo da exclusão (Obrigatório):');
+        if (!reason || reason.trim() === '') {
+            if (reason !== null) alert('A justificativa é obrigatória.');
+            return;
+        }
 
         setLoading(true);
         try {
-            const res = await fetch(`/api/transactions?id=${id}`, {
+            // Get userId from cookie
+            const userCookie = document.cookie.split('; ').find(row => row.startsWith('session_user='));
+            let userId = '1';
+            if (userCookie) {
+                try {
+                    const user = JSON.parse(decodeURIComponent(userCookie.split('=')[1]));
+                    userId = user.id;
+                } catch (e) { }
+            }
+
+            const res = await fetch(`/api/transactions?id=${id}&userId=${userId}&reason=${encodeURIComponent(reason)}`, {
                 method: 'DELETE'
             });
 
