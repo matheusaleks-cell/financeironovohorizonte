@@ -2,6 +2,8 @@ import { db } from '@/lib/db';
 
 export const dynamic = 'force-dynamic';
 
+import ChangePasswordForm from '@/components/ChangePasswordForm';
+
 export default async function AuditoriaPage() {
     const allLogs = await db.getLogs();
     const logs = allLogs.reverse().slice(0, 100);
@@ -12,6 +14,8 @@ export default async function AuditoriaPage() {
                 <h2 style={{ fontSize: '1.5rem', fontWeight: '700' }}>Histórico e Auditoria</h2>
                 <p style={{ color: 'var(--text-muted)' }}>Registro imutável de todas as ações no sistema</p>
             </header>
+
+            <ChangePasswordForm />
 
             <div className="card">
                 <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.9rem' }}>

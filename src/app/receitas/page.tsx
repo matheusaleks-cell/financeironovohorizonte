@@ -1,5 +1,6 @@
 import { db } from '@/lib/db';
 import TransactionForm from '@/components/TransactionForm';
+import DeleteTransactionButton from '@/components/DeleteTransactionButton';
 
 export const dynamic = 'force-dynamic';
 
@@ -28,8 +29,9 @@ export default async function ReceitasPage() {
                                 <tr>
                                     <th>Data</th>
                                     <th>Origem</th>
-                                    <th>Valor</th>
-                                    <th>Resp.</th>
+                                    <th style={{ padding: '0.5rem' }}>Valor</th>
+                                    <th style={{ padding: '0.5rem' }}>Resp.</th>
+                                    <th style={{ padding: '0.5rem' }}></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -41,10 +43,11 @@ export default async function ReceitasPage() {
                                             R$ {t.amount.toFixed(2)}
                                         </td>
                                         <td style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>Daine</td>
+                                        <td><DeleteTransactionButton id={t.id} /></td>
                                     </tr>
                                 ))}
                                 {transactions.length === 0 && (
-                                    <tr><td colSpan={4} style={{ padding: '1.5rem', textAlign: 'center', color: 'var(--text-secondary)' }}>Nenhum registro encontrado.</td></tr>
+                                    <tr><td colSpan={5} style={{ padding: '1.5rem', textAlign: 'center', color: 'var(--text-secondary)' }}>Nenhum registro encontrado.</td></tr>
                                 )}
                             </tbody>
                         </table>
