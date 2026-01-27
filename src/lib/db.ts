@@ -18,11 +18,13 @@ export const db = {
     },
 
     getTransactions: async () => {
-        return await prisma.transaction.findMany({
+        // Prevent cache
+        const transactions = await prisma.transaction.findMany({
             where: { deletedAt: null },
-            include: { category: true, user: true },
-            orderBy: { date: 'desc' }
+            orderBy: { date: 'desc' },
+            include: { category: true }
         });
+        return transactions;
     },
 
     getLogs: async () => {
