@@ -90,9 +90,9 @@ export default function Dashboard() {
                 alignItems: 'center'
               }}>
                 <div>
-                  <p style={{ fontSize: '0.85rem', fontWeight: 500 }}>{log.details}</p>
+                  <p style={{ fontSize: '0.85rem', fontWeight: 500 }}>{log.details.replace('Created', 'Criado').replace('Status', 'Situação').replace('INCOME', 'Receita').replace('EXPENSE', 'Despesa')}</p>
                   <p style={{ fontSize: '0.75rem', color: 'var(--text-secondary)' }}>
-                    {log.action} • {new Date(log.timestamp).toLocaleString('pt-BR')}
+                    {log.action === 'DELETE' ? 'Exclusão' : log.action === 'CREATE' ? 'Criação' : log.action === 'UPDATE_PASSWORD' ? 'Senha Alterada' : log.action} • {new Date(log.timestamp).toLocaleString('pt-BR')}
                   </p>
                 </div>
                 <div style={{ fontSize: '0.75rem', fontWeight: 600, color: 'var(--text-secondary)' }}>
