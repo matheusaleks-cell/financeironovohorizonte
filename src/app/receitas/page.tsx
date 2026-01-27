@@ -23,28 +23,28 @@ export default async function ReceitasPage() {
                 <div>
                     <h3 style={{ marginBottom: '1rem' }}>Últimas Entradas</h3>
                     <div className="card">
-                        <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+                        <table>
                             <thead>
-                                <tr style={{ textAlign: 'left', borderBottom: '1px solid var(--border)' }}>
-                                    <th style={{ padding: '0.5rem' }}>Data</th>
-                                    <th style={{ padding: '0.5rem' }}>Origem</th>
-                                    <th style={{ padding: '0.5rem' }}>Valor</th>
-                                    <th style={{ padding: '0.5rem' }}>Resp.</th>
+                                <tr>
+                                    <th>Data</th>
+                                    <th>Origem</th>
+                                    <th>Valor</th>
+                                    <th>Resp.</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {transactions.map((t: any) => (
-                                    <tr key={t.id} style={{ borderBottom: '1px solid var(--border)' }}>
-                                        <td style={{ padding: '0.75rem 0.5rem' }}>{new Date(t.date).toLocaleDateString('pt-BR')}</td>
-                                        <td style={{ padding: '0.75rem 0.5rem' }}>{t.description}</td>
-                                        <td style={{ padding: '0.75rem 0.5rem', fontWeight: 'bold', color: 'var(--success)' }}>
+                                    <tr key={t.id}>
+                                        <td>{new Date(t.date).toLocaleDateString('pt-BR')}</td>
+                                        <td>{t.description}</td>
+                                        <td style={{ fontWeight: 600, color: 'var(--success)' }}>
                                             R$ {t.amount.toFixed(2)}
                                         </td>
-                                        <td style={{ padding: '0.75rem 0.5rem', fontSize: '0.8rem' }}>Daine</td>
+                                        <td style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>Daine</td>
                                     </tr>
                                 ))}
                                 {transactions.length === 0 && (
-                                    <tr><td colSpan={4} style={{ padding: '1rem', textAlign: 'center', color: 'var(--text-muted)' }}>Nenhum registro.</td></tr>
+                                    <tr><td colSpan={4} style={{ padding: '1.5rem', textAlign: 'center', color: 'var(--text-secondary)' }}>Nenhum registro encontrado.</td></tr>
                                 )}
                             </tbody>
                         </table>
