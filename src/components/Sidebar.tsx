@@ -41,18 +41,28 @@ export default function Sidebar() {
         }
     };
 
+    // Icons as components for cleaner SVG handling
+    const Icons = {
+        Dashboard: () => <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" /></svg>,
+        Income: () => <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" /></svg>,
+        Expense: () => <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M13 17h8m0 0V9m0 8l-8-8-4 4-6-6" /></svg>,
+        Closing: () => <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" /></svg>,
+        Security: () => <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>,
+        Admin: () => <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" /><path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+    };
+
     const links = [
-        { href: '/', label: 'Visão Geral', icon: '📊' },
-        { href: '/receitas', label: 'Receitas', icon: '💰' },
-        { href: '/despesas', label: 'Despesas', icon: '💸' },
-        { href: '/fechamento', label: 'Fechamento', icon: '📋' },
-        { href: '/auditoria', label: 'Segurança', icon: '🛡️' },
-        ...(isAdmin ? [{ href: '/admin/users', label: 'Gestão Usuários', icon: '⚙️' }] : [])
+        { href: '/', label: 'Visão Geral', icon: <Icons.Dashboard /> },
+        { href: '/receitas', label: 'Receitas', icon: <Icons.Income /> },
+        { href: '/despesas', label: 'Despesas', icon: <Icons.Expense /> },
+        { href: '/fechamento', label: 'Fechamento', icon: <Icons.Closing /> },
+        { href: '/auditoria', label: 'Segurança', icon: <Icons.Security /> },
+        ...(isAdmin ? [{ href: '/admin/users', label: 'Gestão Usuários', icon: <Icons.Admin /> }] : [])
     ];
 
     return (
         <aside style={{
-            width: '260px', /* Slightly narrower */
+            width: '260px',
             background: 'var(--bg-sidebar)', /* Dark Slate */
             borderRight: '1px solid #1e293b',
             height: '100vh',
@@ -62,30 +72,29 @@ export default function Sidebar() {
             display: 'flex',
             flexDirection: 'column',
             zIndex: 50,
-            color: 'white'
+            color: '#e2e8f0'
         }}>
             <div style={{ padding: '2rem 1.5rem', borderBottom: '1px solid #1e293b' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
                     <div style={{
-                        width: '36px',
-                        height: '36px',
+                        width: '32px',
+                        height: '32px',
                         background: '#3b82f6', /* Corporate Blue */
                         borderRadius: '6px',
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
                         color: 'white',
-                        fontWeight: 'bold'
                     }}>
-                        PF
+                        <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
                     </div>
                     <div>
-                        <h1 style={{ fontSize: '1rem', fontWeight: '600', color: 'white', lineHeight: '1.2' }}>POUSADA<br /><span style={{ color: '#94a3b8' }}>FINANCE PRO</span></h1>
+                        <h1 style={{ fontSize: '0.95rem', fontWeight: 'bold', color: 'white', lineHeight: '1.2', letterSpacing: '-0.02em' }}>POUSADA<br /><span style={{ color: '#94a3b8', fontWeight: '400' }}>FINANCE PRO</span></h1>
                     </div>
                 </div>
             </div>
 
-            <nav style={{ flex: 1, padding: '1.5rem 1rem', display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
+            <nav style={{ flex: 1, padding: '1.5rem 1rem', display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
                 {links.map(link => {
                     const isActive = pathname === link.href;
                     return (
@@ -93,15 +102,22 @@ export default function Sidebar() {
                             display: 'flex',
                             alignItems: 'center',
                             gap: '0.75rem',
-                            padding: '0.75rem 1rem',
-                            borderRadius: '4px',
+                            padding: '0.6rem 0.75rem', /* Sutilmente menor */
+                            borderRadius: '6px',
                             background: isActive ? '#1e293b' : 'transparent',
+                            border: isActive ? '1px solid #334155' : '1px solid transparent',
                             color: isActive ? 'white' : '#94a3b8',
                             fontWeight: isActive ? '500' : '400',
                             transition: 'all 0.2s',
-                            fontSize: '0.9rem'
+                            fontSize: '0.875rem'
                         }}>
-                            <span style={{ fontSize: '1.1rem', opacity: isActive ? 1 : 0.7 }}>{link.icon}</span>
+                            <span style={{
+                                color: isActive ? '#60a5fa' : 'currentColor',
+                                display: 'flex',
+                                alignItems: 'center'
+                            }}>
+                                {link.icon}
+                            </span>
                             {link.label}
                         </Link>
                     );
