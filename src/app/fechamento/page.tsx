@@ -87,16 +87,44 @@ export default function FechamentoPage() {
             </div>
 
             <div className="card">
-                <h3 style={{ marginBottom: '1rem' }}>Divisão entre Sócios (4)</h3>
+                <h3 style={{ marginBottom: '1rem' }}>Divisão entre Sócios</h3>
+                <p style={{ color: 'var(--text-muted)', marginBottom: '1rem' }}>
+                    Defina o valor repassado para cada parte. O sistema não calcula automático para dar liberdade.
+                </p>
+
                 {profit > 0 ? (
-                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1rem' }}>
-                        {['Daine', 'Fernando', 'Michel', 'Mayara'].map(p => (
-                            <div key={p} style={{ padding: '1rem', background: 'var(--bg-app)', borderRadius: '8px' }}>
-                                <strong>{p}</strong>
-                                <div style={{ fontSize: '1.5rem', color: 'var(--primary)' }}>R$ {partnerShare.toFixed(2)}</div>
-                                <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginTop: '0.5rem' }}>Disponível para saque</div>
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '1rem' }}>
+                        {/* Grupo 1 */}
+                        <div style={{ padding: '1.5rem', background: 'var(--bg-app)', borderRadius: '8px', border: '1px solid var(--border)' }}>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.5rem' }}>
+                                <div style={{ width: '32px', height: '32px', background: 'var(--primary)', borderRadius: '50%', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>FD</div>
+                                <strong>Fernando & Daine</strong>
                             </div>
-                        ))}
+                            <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', marginBottom: '1rem' }}>50% da Sociedade</div>
+
+                            <label style={{ fontSize: '0.8rem', fontWeight: 600 }}>Valor Repassado (R$)</label>
+                            <input
+                                type="number"
+                                placeholder="0,00"
+                                style={{ fontSize: '1.25rem', fontWeight: 'bold', color: 'var(--success)', padding: '0.5rem', width: '100%', marginTop: '0.25rem' }}
+                            />
+                        </div>
+
+                        {/* Grupo 2 */}
+                        <div style={{ padding: '1.5rem', background: 'var(--bg-app)', borderRadius: '8px', border: '1px solid var(--border)' }}>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.5rem' }}>
+                                <div style={{ width: '32px', height: '32px', background: 'var(--text-secondary)', borderRadius: '50%', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>MM</div>
+                                <strong>Michel & Mayara</strong>
+                            </div>
+                            <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', marginBottom: '1rem' }}>50% da Sociedade</div>
+
+                            <label style={{ fontSize: '0.8rem', fontWeight: 600 }}>Valor Repassado (R$)</label>
+                            <input
+                                type="number"
+                                placeholder="0,00"
+                                style={{ fontSize: '1.25rem', fontWeight: 'bold', color: 'var(--success)', padding: '0.5rem', width: '100%', marginTop: '0.25rem' }}
+                            />
+                        </div>
                     </div>
                 ) : (
                     <p>Sem lucro para dividir neste período.</p>
