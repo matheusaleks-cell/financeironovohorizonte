@@ -33,33 +33,40 @@ export async function POST(request: Request) {
     try {
         const body = await request.json();
 
-        // Attempt add (will throw if month locked)
-        const newTx = await db.addTransaction({
-            ...body,
-            status: body.status || 'COMPLETED' // Default to COMPLETED if not sent
-        });
-
-        await db.logAction({
-            action: 'CREATE',
-            entity: 'Transaction',
-            entityId: String(newTx.id),
-            details: `Created ${newTx.type} (Status: ${newTx.status}) - R$ ${newTx.amount}`,
-            userId: body.userId
-        });
-
-        // Fire and forget push
-        try {
-            const title = newTx.type === 'INCOME' ? '💰 Nova Receita' : '💸 Nova Despesa';
-            const msg = `${newTx.description} - R$ ${newTx.amount.toFixed(2)}`;
-            await sendPushNotification(title, msg, '/');
-        } catch (e) {
-            console.error('Push failed', e);
+        // Validation
+        if (!body.amount || !body.categoryId || !body.date) {
+            return NextResponse.json({ error: 'Dados incompletos' }, { status: 400 });
         }
 
-        return NextResponse.json(newTx);
+        // Check lock
+        if (await db.isMonthLocked(body.date)) {
+            return NextResponse.json({ error: 'Mês fechado. Não é possível adicionar lançamentos.' }, { status: 400 });
+        }
 
+        const transaction = await db.createTransaction({
+            type: body.type,
+            amount: body.amount,
+            categoryId: body.categoryId,
+            date: new Date(body.date),
+            description: body.description || '',
+            userId: body.userId,
+            paymentMethod: body.paymentMethod || 'Outros',
+            proofUrl: body.proofUrl,
+            status: body.status || 'COMPLETED'
+        });
+
+        // Notify on Expense
+        if (body.type === 'EXPENSE') {
+            await sendPushNotification(
+                'Nova Despesa Registrada 💸',
+                `R$ ${body.amount} - ${body.description}`,
+                '/despesas'
+            );
+        }
+
+        return NextResponse.json(transaction);
     } catch (err: any) {
-        return NextResponse.json({ error: err.message }, { status: 400 });
+        return NextResponse.json({ error: err.message }, { status: 500 });
     }
 }
 
