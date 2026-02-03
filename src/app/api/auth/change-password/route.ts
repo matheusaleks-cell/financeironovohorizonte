@@ -6,30 +6,38 @@ const prisma = new PrismaClient();
 
 export async function POST(request: Request) {
     try {
-        const body = await request.json();
-        const { userId, newPassword } = body;
+        const { userId, newPassword, confirmPassword } = await request.json();
 
-        if (!userId || !newPassword) {
+        if (!userId || !newPassword || !confirmPassword) {
             return NextResponse.json({ error: 'Dados incompletos' }, { status: 400 });
         }
 
-        // Just update directly - in a real app we'd hash this!
+        if (newPassword !== confirmPassword) {
+            return NextResponse.json({ error: 'As senhas não coincidem' }, { status: 400 });
+        }
+
+        // Update user
         await prisma.user.update({
-            where: { id: parseInt(userId) },
-            data: { password: newPassword }
+            where: { id: Number(userId) },
+            data: {
+                password: newPassword,
+                mustChangePassword: false
+            }
         });
 
+        // Log action
         await db.logAction({
-            action: 'UPDATE_PASSWORD',
+            action: 'CHANGE_PASSWORD',
             entity: 'User',
             entityId: String(userId),
-            details: 'Senha alterada pelo usuário',
-            userId: parseInt(userId)
+            details: 'First time password change completed',
+            userId: Number(userId)
         });
 
         return NextResponse.json({ success: true });
 
-    } catch (err: any) {
-        return NextResponse.json({ error: err.message }, { status: 400 });
+    } catch (e: any) {
+        console.error("Change Password Error:", e);
+        return NextResponse.json({ error: 'Erro ao alterar senha' }, { status: 500 });
     }
 }

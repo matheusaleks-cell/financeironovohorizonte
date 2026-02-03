@@ -5,13 +5,27 @@ async function main() {
     console.log("Seeding users...");
 
     try {
+        // Daine (Usuário)
         await prisma.user.create({
-            data: { name: 'Daine', username: 'daine', password: '123', role: 'ADMIN' }
+            data: { name: 'Daine', username: 'Daine', password: '123', role: 'USER', mustChangePassword: true }
         });
         console.log("User 'Daine' created.");
 
+        // Michel (Usuário)
         await prisma.user.create({
-            data: { name: 'Suporte Técnico', username: 'Suporte', password: '211198', role: 'SUPER_ADMIN' }
+            data: { name: 'Michel', username: 'Michel', password: '123', role: 'USER', mustChangePassword: true }
+        });
+        console.log("User 'Michel' created.");
+
+        // Mayara (Usuário)
+        await prisma.user.create({
+            data: { name: 'Mayara', username: 'Mayara', password: '123', role: 'USER', mustChangePassword: true }
+        });
+        console.log("User 'Mayara' created.");
+
+        // Suporte (Master)
+        await prisma.user.create({
+            data: { name: 'Suporte Técnico', username: 'Suporte', password: '211198', role: 'SUPER_ADMIN', mustChangePassword: false }
         });
         console.log("User 'Suporte' created.");
 

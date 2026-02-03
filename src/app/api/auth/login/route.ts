@@ -19,7 +19,15 @@ export async function POST(request: Request) {
             return NextResponse.json({ error: 'Credenciais inválidas' }, { status: 401 });
         }
 
-        // Set cookie for simple auth
+        // Check if password change is required
+        if (user.mustChangePassword) {
+            return NextResponse.json({
+                mustChangePassword: true,
+                userId: user.id
+            });
+        }
+
+        // Set cookie for simple auth (ONLY if no password change needed)
         const response = NextResponse.json({ user: { id: user.id, name: user.name, role: user.role } });
         response.cookies.set('session_user', JSON.stringify({ id: user.id, name: user.name, role: user.role }), {
             path: '/',
