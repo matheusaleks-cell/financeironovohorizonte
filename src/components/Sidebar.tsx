@@ -7,15 +7,15 @@ export default function Sidebar() {
     const pathname = usePathname();
     if (pathname?.startsWith('/login')) return null;
 
-    const [isAdmin, setIsAdmin] = useState(false);
+    const [user, setUser] = useState<{ id: number; name: string; role: string } | null>(null);
 
     useEffect(() => {
         // Simple client-side check for UI.
         const cookie = document.cookie.split('; ').find(row => row.startsWith('session_user='));
         if (cookie) {
             try {
-                const user = JSON.parse(decodeURIComponent(cookie.split('=')[1]));
-                if (user.role === 'SUPER_ADMIN') setIsAdmin(true);
+                const userData = JSON.parse(decodeURIComponent(cookie.split('=')[1]));
+                setUser(userData);
             } catch (e) { }
         }
 
@@ -23,6 +23,8 @@ export default function Sidebar() {
             navigator.serviceWorker.register('/sw.js').catch(console.error);
         }
     }, [pathname]);
+
+    const isAdmin = user?.role === 'SUPER_ADMIN';
 
     const subscribeToPush = async () => {
         if (!('serviceWorker' in navigator)) return;
@@ -186,8 +188,12 @@ export default function Sidebar() {
                             fontSize: '0.8rem'
                         }}>👤</div>
                         <div>
-                            <p style={{ fontSize: '0.85rem', fontWeight: '500', color: 'white' }}>Daine</p>
-                            <p style={{ fontSize: '0.7rem', color: '#94a3b8' }}>Administrador</p>
+                            <p style={{ fontSize: '0.85rem', fontWeight: '500', color: 'white' }}>
+                                {user ? user.name : 'Visitante'}
+                            </p>
+                            <p style={{ fontSize: '0.7rem', color: '#94a3b8' }}>
+                                {user?.role === 'SUPER_ADMIN' ? 'Mestre' : 'Usuário'}
+                            </p>
                         </div>
                     </div>
                 </div>

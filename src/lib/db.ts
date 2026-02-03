@@ -29,7 +29,8 @@ export const db = {
 
     getLogs: async () => {
         return await prisma.auditLog.findMany({
-            orderBy: { timestamp: 'desc' }
+            orderBy: { timestamp: 'desc' },
+            include: { user: true }
         });
     },
 

@@ -31,9 +31,11 @@ export default async function AuditoriaPage() {
                         {logs.map((log: any) => (
                             <tr key={log.id} style={{ borderBottom: '1px solid var(--border)' }}>
                                 <td style={{ padding: '0.75rem 0.5rem', color: 'var(--text-muted)' }}>
-                                    {new Date(log.timestamp).toLocaleString('pt-BR')}
+                                    {new Date(log.timestamp).toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo' })}
                                 </td>
-                                <td style={{ padding: '0.75rem 0.5rem' }}>Daine</td>{/* Using mock user name as ID is 1 */}
+                                <td style={{ padding: '0.75rem 0.5rem' }}>
+                                    {log.user ? log.user.name : `ID: ${log.userId}`}
+                                </td>
                                 <td style={{ padding: '0.75rem 0.5rem' }}>
                                     <span style={{
                                         background: log.action === 'DELETE' ? '#fee2e2' : '#e0f2fe',
@@ -49,9 +51,6 @@ export default async function AuditoriaPage() {
                                 <td style={{ padding: '0.75rem 0.5rem' }}>{log.details}</td>
                             </tr>
                         ))}
-                        {logs.length === 0 && (
-                            <tr><td colSpan={4} style={{ padding: '1rem', textAlign: 'center' }}>Nenhum registro encontrado.</td></tr>
-                        )}
                     </tbody>
                 </table>
             </div>
