@@ -175,26 +175,53 @@ export default function Sidebar() {
                     <div style={{
                         display: 'flex',
                         alignItems: 'center',
+                        justifyContent: 'space-between',
                         gap: '0.75rem'
                     }}>
-                        <div style={{
-                            width: '32px',
-                            height: '32px',
-                            background: '#334155',
-                            borderRadius: '50%',
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            fontSize: '0.8rem'
-                        }}>👤</div>
-                        <div>
-                            <p style={{ fontSize: '0.85rem', fontWeight: '500', color: 'white' }}>
-                                {user ? user.name : 'Visitante'}
-                            </p>
-                            <p style={{ fontSize: '0.7rem', color: '#94a3b8' }}>
-                                {user?.role === 'SUPER_ADMIN' ? 'Mestre' : 'Usuário'}
-                            </p>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                            <div style={{
+                                width: '32px',
+                                height: '32px',
+                                background: '#334155',
+                                borderRadius: '50%',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                fontSize: '0.8rem'
+                            }}>👤</div>
+                            <div>
+                                <p style={{ fontSize: '0.85rem', fontWeight: '500', color: 'white' }}>
+                                    {user ? user.name : 'Visitante'}
+                                </p>
+                                <p style={{ fontSize: '0.7rem', color: '#94a3b8' }}>
+                                    {user?.role === 'SUPER_ADMIN' ? 'Mestre' : 'Usuário'}
+                                </p>
+                            </div>
                         </div>
+                        <button
+                            onClick={() => {
+                                document.cookie = 'session_user=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+                                window.location.href = '/login';
+                            }}
+                            title="Sair"
+                            style={{
+                                background: 'transparent',
+                                border: '1px solid #dc2626',
+                                borderRadius: '6px',
+                                width: '32px',
+                                height: '32px',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                color: '#ef4444',
+                                cursor: 'pointer',
+                                transition: 'all 0.2s'
+                            }}
+                        >
+                            <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                            </svg>
+                        </button>
                     </div>
                 </div>
             </aside>
