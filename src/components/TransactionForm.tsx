@@ -25,7 +25,17 @@ export default function TransactionForm({ type, categories }: { type: 'INCOME' |
         setLoading(true);
 
         try {
-            await fetch('/api/transactions', {
+            // Get userId from cookie (same logic as DeleteTransactionButton)
+            const userCookie = document.cookie.split('; ').find(row => row.startsWith('session_user='));
+            let userId = 1; // Fallback
+            if (userCookie) {
+                try {
+                    const user = JSON.parse(decodeURIComponent(userCookie.split('=')[1]));
+                    userId = user.id;
+                } catch (e) { }
+            }
+
+            const response = await fetch('/api/transactions', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
@@ -33,15 +43,20 @@ export default function TransactionForm({ type, categories }: { type: 'INCOME' |
                     ...formData,
                     amount: parseFloat(formData.amount),
                     categoryId: parseInt(formData.categoryId),
-                    userId: 1 // Hardcoded 'Daine' for demo
+                    userId: userId
                 })
             });
+
+            if (!response.ok) {
+                const err = await response.json();
+                throw new Error(err.error || 'Erro desconhecido');
+            }
 
             // Force reload to ensure data is updated
             alert('Registro salvo com sucesso!');
             window.location.reload();
-        } catch (err) {
-            alert('Erro ao salvar (pode ser mês fechado)');
+        } catch (err: any) {
+            alert(`Erro ao salvar: ${err.message || 'Erro de conexão'}`);
         } finally {
             setLoading(false);
         }
