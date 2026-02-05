@@ -37,15 +37,9 @@ export default function TransactionForm({ type, categories }: { type: 'INCOME' |
                 })
             });
 
-            router.refresh();
-            setFormData({
-                ...formData,
-                amount: '',
-                description: '',
-                proofUrl: '',
-                status: 'COMPLETED'
-            });
+            // Force reload to ensure data is updated
             alert('Registro salvo com sucesso!');
+            window.location.reload();
         } catch (err) {
             alert('Erro ao salvar (pode ser mês fechado)');
         } finally {
