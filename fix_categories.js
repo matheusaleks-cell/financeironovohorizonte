@@ -5,9 +5,13 @@ const prisma = new PrismaClient();
 async function main() {
     try {
         const expenseCategories = [
-            'Funcionários', 'Manutenção', 'Café da manhã', 'Limpeza',
-            'Lavanderia', 'Energia elétrica', 'Água', 'Internet',
-            'Compras gerais', 'Impostos', 'Outros'
+            'Funcionários', 'Manutenção', 'Energia elétrica', // Existing
+            'Água', 'Internet', 'Café da manhã',
+            'Limpeza (Produtos de limpeza)', 'Lavanderia',
+            'Compras gerais', 'Impostos',
+            'Marketing / Publicidade', 'Sistemas / Software',
+            'Retiradas / Pró-labore', 'Passagem de funcionário',
+            'Outros'
         ];
 
         console.log("Checking and adding missing expense categories...");
